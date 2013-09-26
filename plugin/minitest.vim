@@ -24,7 +24,7 @@ endfunction
 function! RunNearestTest()
   if InTestFile()
     " Test method name, assumed to be the word after the previous 'def'
-    if split(getline("."))[0] == "def"
+    if !empty(getline(".")) && split(getline("."))[0] == "def"
       let l:test = @% . " -n " . split(getline("."))[1]
     else
       let l:test = @% . " -n " . split(getline(search("def", "nbceW")))[1]
@@ -44,7 +44,7 @@ endfunction
 
 function! InTestFile()
   " File path contains a segment test_<words, underscores>.rb
-  return match(expand("%"), "test_.*.rb$") != -1
+  return match(expand("%"), 'test_.*.rb$') != -1
 endfunction
 
 function! SetLastTestCommand(test)
