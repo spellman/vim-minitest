@@ -26,8 +26,10 @@ function! RunNearestTest()
     " Test method name, assumed to be the word after the previous 'def'
     if IsTestFunctionDefLine(".")
       let l:testName = GetTestFunctionNameFromLine(".")
-    else
+    elseif IsTestFunctionDefLine(PreviousFunctionDefLine())
       let l:testName = GetTestFunctionNameFromLine(PreviousFunctionDefLine())
+    elseif IsTestFunctionDefLine(NextFunctionDefLine())
+      let l:testName = GetTestFunctionNameFromLine(NextFunctionDefLine())
     endif
     let l:test = AppendTestFunctionNameToTestFilePath(l:testName)
     call SetLastTestCommand(l:test)
@@ -61,11 +63,15 @@ function! IsNonEmptyLine(lineNumber)
 endfunction
 
 function! IsTestFunctionDefLine(lineNumber)
-  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def"
+  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def" && match(SecondWordOfLine(a:lineNumber), 'test_\w*') == 0
 endfunction
 
 function! PreviousFunctionDefLine()
   return search("def", "nbceW")
+endfunction
+
+function! NextFunctionDefLine()
+  return search("def", "nceW")
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
