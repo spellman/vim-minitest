@@ -1,7 +1,8 @@
-# rspec.vim
+# minitest.vim
 
-This is a lightweight Rspec runner for Vim.
+This is a lightweight minitest runner for Vim.
 
+# To be updated:
 ## Installation
 
 Recommended installation with [vundle](https://github.com/gmarik/vundle):
