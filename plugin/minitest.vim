@@ -21,40 +21,6 @@ function! RunCurrentTestFile()
   endif
 endfunction
 
-function! NthWordOfLine(n, lineNumber)
-  return split(getline(a:lineNumber))[a:n]
-endfunction
-
-function! FirstWordOfLine(lineNumber)
-  return NthWordOfLine(0, a:lineNumber)
-endfunction
-
-function! SecondWordOfLine(lineNumber)
-  return NthWordOfLine(1, a:lineNumber)
-endfunction
-
-function! IsNonEmptyLine(lineNumber)
-  return !empty(getline(a:lineNumber))
-endfunction
-
-function! IsTestFunctionDefLine(lineNumber)
-  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def"
-endfunction
-
-function! PreviousFunctionDefLine()
-  return search("def", "nbceW")
-endfunction
-
-function! GetTestFunctionNameFromLine(lineNumber)
-  if IsNonEmptyLine(a:lineNumber)
-    return SecondWordOfLine(a:lineNumber)
-  endif
-endfunction
-
-function! AppendTestFunctionNameToTestFilePath(functionName)
-  return @% . " -n " . a:functionName
-endfunction
-
 function! RunNearestTest()
   if InTestFile()
     " Test method name, assumed to be the word after the previous 'def'
@@ -88,4 +54,38 @@ endfunction
 
 function! RunTests(test)
   execute substitute(g:minitest_command, "{test}", a:test, "g")
+endfunction
+
+function! IsNonEmptyLine(lineNumber)
+  return !empty(getline(a:lineNumber))
+endfunction
+
+function! IsTestFunctionDefLine(lineNumber)
+  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def"
+endfunction
+
+function! PreviousFunctionDefLine()
+  return search("def", "nbceW")
+endfunction
+
+function! GetTestFunctionNameFromLine(lineNumber)
+  if IsNonEmptyLine(a:lineNumber)
+    return SecondWordOfLine(a:lineNumber)
+  endif
+endfunction
+
+function! AppendTestFunctionNameToTestFilePath(functionName)
+  return @% . " -n " . a:functionName
+endfunction
+
+function! FirstWordOfLine(lineNumber)
+  return NthWordOfLine(0, a:lineNumber)
+endfunction
+
+function! SecondWordOfLine(lineNumber)
+  return NthWordOfLine(1, a:lineNumber)
+endfunction
+
+function! NthWordOfLine(n, lineNumber)
+  return split(getline(a:lineNumber))[a:n]
 endfunction
