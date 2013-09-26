@@ -21,8 +21,24 @@ function! RunCurrentTestFile()
   endif
 endfunction
 
-function! CalledFromFunctionDefLine()
-  return !empty(getline(".")) && split(getline("."))[0] == "def"
+function! NthWordOfLine(n, lineNumber)
+  return split(getline(a:lineNumber))[a:n]
+endfunction
+
+function! FirstWordOfLine(lineNumber)
+  return NthWordOfLine(0, a:lineNumber)
+endfunction
+
+function! SecondWordOfLine(lineNumber)
+  return NthWordOfLine(1, a:lineNumber)
+endfunction
+
+function! IsNonEmptyLine(lineNumber)
+  return !empty(getline(a:lineNumber))
+endfunction
+
+function! IsTestFunctionDefLine(lineNumber)
+  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def"
 endfunction
 
 function! PreviousFunctionDefLine()
@@ -30,7 +46,9 @@ function! PreviousFunctionDefLine()
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
-  return split(getline(a:lineNumber))[1]
+  if IsNonEmptyLine(a:lineNumber)
+    return SecondWordOfLine(a:lineNumber)
+  endif
 endfunction
 
 function! AppendTestFunctionNameToTestFilePath(functionName)
@@ -40,12 +58,12 @@ endfunction
 function! RunNearestTest()
   if InTestFile()
     " Test method name, assumed to be the word after the previous 'def'
-    if CalledFromFunctionDefLine()
-      let l:lineNumber = GetTestFunctionNameFromLine(".")
+    if IsTestFunctionDefLine(".")
+      let l:testName = GetTestFunctionNameFromLine(".")
     else
-      let l:lineNumber = GetTestFunctionNameFromLine(PreviousFunctionDefLine())
+      let l:testName = GetTestFunctionNameFromLine(PreviousFunctionDefLine())
     endif
-    let l:test = AppendTestFunctionNameToTestFilePath(l:lineNumber)
+    let l:test = AppendTestFunctionNameToTestFilePath(l:testName)
     call SetLastTestCommand(l:test)
     call RunTests(l:test)
   else
