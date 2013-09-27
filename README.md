@@ -14,10 +14,11 @@ Running all tests is achieved via running <project root>/test/test_helper.rb, wh
 I used the following code from the [CrashRuby blog](http://crashruby.com/2013/05/10/running-a-minitest-suite/):
 ```ruby
 require "minitest/autorun"
+require "bundler/setup"
 
 if __FILE__ == $0
-  $LOAD_PATH.unshift 'lib', 'test'
-  Dir.glob('./test/**/test_*.rb') { |f| require f }
+  $LOAD_PATH.unshift "lib", "test"
+  Dir.glob("./test/**/test_*.rb") { |f| require f }
 end
 ```
 
