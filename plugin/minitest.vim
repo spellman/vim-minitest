@@ -2,7 +2,12 @@ let s:plugin_path = expand("<sfile>:p:h:h")
 
 if !exists("g:minitest_command")
   let s:cmd = "ruby -Itest {test}"
-  let g:minitest_command = "!echo " . s:cmd . " && " . s:cmd
+
+  if has("gui_running") && has("gui_macvim")
+    let g:minitest_command = "silent !" . s:plugin_path . "/bin/run_in_os_x_terminal '" . s:cmd . "'"
+  else
+    let g:minitest_command = "!echo " . s:cmd . " && " . s:cmd
+  endif
 endif
 
 function! RunAllTests()
