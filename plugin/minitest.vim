@@ -23,15 +23,7 @@ endfunction
 
 function! RunNearestTest()
   if InTestFile()
-    " Test method name, assumed to be the word after the previous 'def'
-    if IsTestFunctionDefLine(".")
-      let l:testName = GetTestFunctionNameFromLine(".")
-    elseif IsTestFunctionDefLine(PreviousFunctionDefLine())
-      let l:testName = GetTestFunctionNameFromLine(PreviousFunctionDefLine())
-    elseif IsTestFunctionDefLine(NextFunctionDefLine())
-      let l:testName = GetTestFunctionNameFromLine(NextFunctionDefLine())
-    endif
-    let l:test = AppendTestFunctionNameToTestFilePath(l:testName)
+    let l:test = AppendTestFunctionNameToTestFilePath(NearestFunctionName())
     call SetLastTestCommand(l:test)
     call RunTests(l:test)
   else
@@ -58,20 +50,20 @@ function! RunTests(test)
   execute substitute(g:minitest_command, "{test}", a:test, "g")
 endfunction
 
-function! IsNonEmptyLine(lineNumber)
-  return !empty(getline(a:lineNumber))
+function! NearestFunctionName()
+  if IsTestFunctionDefLine(".")
+    return GetTestFunctionNameFromLine(".")
+  elseif IsTestFunctionDefLine(PreviousFunctionDefLine())
+    return GetTestFunctionNameFromLine(PreviousFunctionDefLine())
+  elseif IsTestFunctionDefLine(NextFunctionDefLine())
+    return GetTestFunctionNameFromLine(NextFunctionDefLine())
+  endif
 endfunction
 
 function! IsTestFunctionDefLine(lineNumber)
-  return IsNonEmptyLine(a:lineNumber) && FirstWordOfLine(a:lineNumber) == "def" && match(SecondWordOfLine(a:lineNumber), 'test_\w*') == 0
-endfunction
-
-function! PreviousFunctionDefLine()
-  return search("def", "nbceW")
-endfunction
-
-function! NextFunctionDefLine()
-  return search("def", "nceW")
+  return IsNonEmptyLine(a:lineNumber)            &&
+        \ FirstWordOfLine(a:lineNumber) == "def" &&
+        \ match(SecondWordOfLine(a:lineNumber), 'test_\w*') == 0
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
@@ -82,6 +74,18 @@ endfunction
 
 function! AppendTestFunctionNameToTestFilePath(functionName)
   return @% . " -n " . a:functionName
+endfunction
+
+function! IsNonEmptyLine(lineNumber)
+  return !empty(getline(a:lineNumber))
+endfunction
+
+function! PreviousFunctionDefLine()
+  return search("def", "nbceW")
+endfunction
+
+function! NextFunctionDefLine()
+  return search("def", "nceW")
 endfunction
 
 function! FirstWordOfLine(lineNumber)
