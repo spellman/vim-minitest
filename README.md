@@ -11,7 +11,7 @@ Bundle 'spellman/vim-minitest'
 ```
 
 Running all tests is achieved via running <project root>/test/test_helper.rb, which should require all tests.
-I used the following code from the [CrashRuby blog](http://crashruby.com/2013/05/10/running-a-minitest-suite/):
+I used the following code in test_helper.rb from the [CrashRuby blog](http://crashruby.com/2013/05/10/running-a-minitest-suite/). Note this assumes that vim's working directory is the project root.
 ```ruby
 require "minitest/autorun"
 require "bundler/setup"
