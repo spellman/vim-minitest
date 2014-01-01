@@ -72,9 +72,7 @@ function! IsTestFunctionDefLine(lineNumber)
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
-  if IsTestFunctionDefLine(a:lineNumber)
-    return SecondWordOfLine(a:lineNumber)
-  endif
+  return SecondWordOfLine(a:lineNumber)
 endfunction
 
 function! AppendTestFunctionNameToTestFilePath(functionName)
