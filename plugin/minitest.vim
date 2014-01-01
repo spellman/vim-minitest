@@ -72,7 +72,7 @@ function! IsTestFunctionDefLine(lineNumber)
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
-  if IsNonEmptyLine(a:lineNumber)
+  if IsTestFunctionDefLine(a:lineNumber)
     return SecondWordOfLine(a:lineNumber)
   endif
 endfunction
@@ -86,11 +86,11 @@ function! IsNonEmptyLine(lineNumber)
 endfunction
 
 function! PreviousFunctionDefLine()
-  return search("def", "nbceW")
+  return search("def ", "nbceW")
 endfunction
 
 function! NextFunctionDefLine()
-  return search("def", "nceW")
+  return search("def ", "nceW")
 endfunction
 
 function! FirstWordOfLine(lineNumber)
