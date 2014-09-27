@@ -67,8 +67,8 @@ endfunction
 
 function! IsTestFunctionDefLine(lineNumber)
   return IsNonEmptyLine(a:lineNumber)            &&
-        \ FirstWordOfLine(a:lineNumber) == "def" &&
-        \ match(SecondWordOfLine(a:lineNumber), 'test_\w*') == 0
+        \ FirstWordOfLine(a:lineNumber) ==# "def" &&
+        \ match(SecondWordOfLine(a:lineNumber), 'test_\w*') ==# 0
 endfunction
 
 function! GetTestFunctionNameFromLine(lineNumber)
