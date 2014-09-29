@@ -42,20 +42,20 @@ function! RunLastTest()
   endif
 endfunction
 
-function! InTestFile()
+function! s:InTestFile()
   " File path contains a segment test_<words, underscores>.rb
   return match(expand("%"), 'test_.*.rb$') != -1
 endfunction
 
-function! SetLastTestCommand(test)
+function! s:SetLastTestCommand(test)
   let s:last_test_command = a:test
 endfunction
 
-function! RunTests(test)
+function! s:RunTests(test)
   execute substitute(g:minitest_command, "{test}", a:test, "g")
 endfunction
 
-function! NearestFunctionName()
+function! s:NearestFunctionName()
   if IsTestFunctionDefLine(".")
     return GetTestFunctionNameFromLine(".")
   elseif IsTestFunctionDefLine(PreviousFunctionDefLine())
@@ -65,40 +65,40 @@ function! NearestFunctionName()
   endif
 endfunction
 
-function! IsTestFunctionDefLine(lineNumber)
+function! s:IsTestFunctionDefLine(lineNumber)
   return IsNonEmptyLine(a:lineNumber)            &&
         \ FirstWordOfLine(a:lineNumber) ==# "def" &&
         \ match(SecondWordOfLine(a:lineNumber), 'test_\w*') ==# 0
 endfunction
 
-function! GetTestFunctionNameFromLine(lineNumber)
+function! s:GetTestFunctionNameFromLine(lineNumber)
   return SecondWordOfLine(a:lineNumber)
 endfunction
 
-function! AppendTestFunctionNameToTestFilePath(functionName)
+function! s:AppendTestFunctionNameToTestFilePath(functionName)
   return @% . " -n " . a:functionName
 endfunction
 
-function! IsNonEmptyLine(lineNumber)
+function! s:IsNonEmptyLine(lineNumber)
   return !empty(getline(a:lineNumber))
 endfunction
 
-function! PreviousFunctionDefLine()
+function! s:PreviousFunctionDefLine()
   return search("def ", "nbceW")
 endfunction
 
-function! NextFunctionDefLine()
+function! s:NextFunctionDefLine()
   return search("def ", "nceW")
 endfunction
 
-function! FirstWordOfLine(lineNumber)
+function! s:FirstWordOfLine(lineNumber)
   return NthWordOfLine(0, a:lineNumber)
 endfunction
 
-function! SecondWordOfLine(lineNumber)
+function! s:SecondWordOfLine(lineNumber)
   return NthWordOfLine(1, a:lineNumber)
 endfunction
 
-function! NthWordOfLine(n, lineNumber)
+function! s:NthWordOfLine(n, lineNumber)
   return split(getline(a:lineNumber))[a:n]
 endfunction
