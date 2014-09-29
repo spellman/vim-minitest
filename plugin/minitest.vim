@@ -1,3 +1,8 @@
+nnoremap <unique> <Plug>vim-minitest#RunCurrentTestFile :call <SID>RunCurrentTestFile()<CR>
+nnoremap <unique> <Plug>vim-minitest#RunNearestTest :call <SID>RunNearestTest()<CR>
+nnoremap <unique> <Plug>vim-minitest#RunLastTest :call <SID>RunLastTest()<CR>
+nnoremap <unique> <Plug>vim-minitest#RunAllTests :call <SID>RunAllTests()<CR>
+
 let s:plugin_path = expand("<sfile>:p:h:h")
 
 if !exists("g:minitest_command")
@@ -10,33 +15,33 @@ if !exists("g:minitest_command")
   endif
 endif
 
-function! RunAllTests()
+function! s:RunAllTests()
   let l:test = "test/test_helper.rb"
   call s:SetLastTestCommand(l:test)
   call s:RunTests(l:test)
 endfunction
 
-function! RunCurrentTestFile()
+function! s:RunCurrentTestFile()
   if s:InTestFile()
     let l:test = @%
     call s:SetLastTestCommand(l:test)
     call s:RunTests(l:test)
   else
-    call RunLastTest()
+    call s:RunLastTest()
   endif
 endfunction
 
-function! RunNearestTest()
+function! s:RunNearestTest()
   if s:InTestFile()
     let l:test = s:AppendTestFunctionNameToTestFilePath(NearestFunctionName())
     call s:SetLastTestCommand(l:test)
     call s:RunTests(l:test)
   else
-    call RunLastTest()
+    call s:RunLastTest()
   endif
 endfunction
 
-function! RunLastTest()
+function! s:RunLastTest()
   if exists("s:last_test_command")
     call s:RunTests(s:last_test_command)
   endif
@@ -61,7 +66,7 @@ function! s:NearestFunctionName()
   elseif s:IsTestFunctionDefLine(s:PreviousFunctionDefLine())
     return s:GetTestFunctionNameFromLine(s:PreviousFunctionDefLine())
   elseif s:IsTestFunctionDefLine(s:NextFunctionDefLine())
-    return Ges:tTestFunctionNameFromLine(s:NextFunctionDefLine())
+    return s:GetTestFunctionNameFromLine(s:NextFunctionDefLine())
   endif
 endfunction
 
