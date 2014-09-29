@@ -12,25 +12,25 @@ endif
 
 function! RunAllTests()
   let l:test = "test/test_helper.rb"
-  call SetLastTestCommand(l:test)
-  call RunTests(l:test)
+  call s:SetLastTestCommand(l:test)
+  call s:RunTests(l:test)
 endfunction
 
 function! RunCurrentTestFile()
-  if InTestFile()
+  if s:InTestFile()
     let l:test = @%
-    call SetLastTestCommand(l:test)
-    call RunTests(l:test)
+    call s:SetLastTestCommand(l:test)
+    call s:RunTests(l:test)
   else
     call RunLastTest()
   endif
 endfunction
 
 function! RunNearestTest()
-  if InTestFile()
-    let l:test = AppendTestFunctionNameToTestFilePath(NearestFunctionName())
-    call SetLastTestCommand(l:test)
-    call RunTests(l:test)
+  if s:InTestFile()
+    let l:test = s:AppendTestFunctionNameToTestFilePath(NearestFunctionName())
+    call s:SetLastTestCommand(l:test)
+    call s:RunTests(l:test)
   else
     call RunLastTest()
   endif
@@ -38,7 +38,7 @@ endfunction
 
 function! RunLastTest()
   if exists("s:last_test_command")
-    call RunTests(s:last_test_command)
+    call s:RunTests(s:last_test_command)
   endif
 endfunction
 
@@ -56,23 +56,23 @@ function! s:RunTests(test)
 endfunction
 
 function! s:NearestFunctionName()
-  if IsTestFunctionDefLine(".")
-    return GetTestFunctionNameFromLine(".")
-  elseif IsTestFunctionDefLine(PreviousFunctionDefLine())
-    return GetTestFunctionNameFromLine(PreviousFunctionDefLine())
-  elseif IsTestFunctionDefLine(NextFunctionDefLine())
-    return GetTestFunctionNameFromLine(NextFunctionDefLine())
+  if s:IsTestFunctionDefLine(".")
+    return s:GetTestFunctionNameFromLine(".")
+  elseif s:IsTestFunctionDefLine(s:PreviousFunctionDefLine())
+    return s:GetTestFunctionNameFromLine(s:PreviousFunctionDefLine())
+  elseif s:IsTestFunctionDefLine(s:NextFunctionDefLine())
+    return Ges:tTestFunctionNameFromLine(s:NextFunctionDefLine())
   endif
 endfunction
 
 function! s:IsTestFunctionDefLine(lineNumber)
-  return IsNonEmptyLine(a:lineNumber)            &&
-        \ FirstWordOfLine(a:lineNumber) ==# "def" &&
-        \ match(SecondWordOfLine(a:lineNumber), 'test_\w*') ==# 0
+  return s:IsNonEmptyLine(a:lineNumber)            &&
+        \ s:FirstWordOfLine(a:lineNumber) ==# "def" &&
+        \ match(s:SecondWordOfLine(a:lineNumber), 'test_\w*') ==# 0
 endfunction
 
 function! s:GetTestFunctionNameFromLine(lineNumber)
-  return SecondWordOfLine(a:lineNumber)
+  return s:SecondWordOfLine(a:lineNumber)
 endfunction
 
 function! s:AppendTestFunctionNameToTestFilePath(functionName)
@@ -92,11 +92,11 @@ function! s:NextFunctionDefLine()
 endfunction
 
 function! s:FirstWordOfLine(lineNumber)
-  return NthWordOfLine(0, a:lineNumber)
+  return s:NthWordOfLine(0, a:lineNumber)
 endfunction
 
 function! s:SecondWordOfLine(lineNumber)
-  return NthWordOfLine(1, a:lineNumber)
+  return s:NthWordOfLine(1, a:lineNumber)
 endfunction
 
 function! s:NthWordOfLine(n, lineNumber)
