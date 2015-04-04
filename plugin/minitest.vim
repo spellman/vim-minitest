@@ -1,7 +1,7 @@
-nnoremap <unique> <Plug>vim-minitest#RunCurrentTestFile :call <SID>RunCurrentTestFile()<CR>
-nnoremap <unique> <Plug>vim-minitest#RunNearestTest :call <SID>RunNearestTest()<CR>
-nnoremap <unique> <Plug>vim-minitest#RunLastTest :call <SID>RunLastTest()<CR>
-nnoremap <unique> <Plug>vim-minitest#RunAllTests :call <SID>RunAllTests()<CR>
+noremap <unique> <script> <Plug>vim-minitest#RunCurrentTestFile :call <SID>RunCurrentTestFile()<CR>
+noremap <unique> <script> <Plug>vim-minitest#RunNearestTest :call <SID>RunNearestTest()<CR>
+noremap <unique> <script> <Plug>vim-minitest#RunLastTest :call <SID>RunLastTest()<CR>
+noremap <unique> <script> <Plug>vim-minitest#RunAllTests :call <SID>RunAllTests()<CR>
 
 let s:plugin_path = expand("<sfile>:p:h:h")
 
@@ -33,7 +33,7 @@ endfunction
 
 function! s:RunNearestTest()
   if s:InTestFile()
-    let l:test = s:AppendTestFunctionNameToTestFilePath(NearestFunctionName())
+    let l:test = s:AppendTestFunctionNameToTestFilePath(s:NearestFunctionName())
     call s:SetLastTestCommand(l:test)
     call s:RunTests(l:test)
   else
@@ -71,7 +71,7 @@ function! s:NearestFunctionName()
 endfunction
 
 function! s:IsTestFunctionDefLine(lineNumber)
-  return s:IsNonEmptyLine(a:lineNumber)            &&
+  return s:IsNonEmptyLine(a:lineNumber) &&
         \ s:FirstWordOfLine(a:lineNumber) ==# "def" &&
         \ match(s:SecondWordOfLine(a:lineNumber), 'test_\w*') ==# 0
 endfunction
