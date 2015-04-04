@@ -28,10 +28,10 @@ As per [Rspec.vim](https://github.com/thoughtbot/vim-rspec), if using zsh on OS 
 
 ```vim
 " Minitest.vim mappings
-nnoremap <Leader>t :call RunCurrentTestFile()<CR>
-nnoremap <Leader>s :call RunNearestTest()<CR>
-nnoremap <Leader>l :call RunLastTest()<CR>
-nnoremap <Leader>a :call RunAllTests()<CR>
+nmap <Leader>t <Plug>vim-minitest#RunCurrentTestFile
+nmap <Leader>s <Plug>vim-minitest#RunNearestTest
+nmap <Leader>l <Plug>vim-minitest#RunLastTest
+nmap <Leader>a <Plug>vim-minitest#RunAllTests
 ```
 
 ## Configuration
