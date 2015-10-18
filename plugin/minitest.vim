@@ -1,7 +1,7 @@
-noremap <unique> <script> <Plug>vim-minitest#RunCurrentTestFile :call <SID>RunCurrentTestFile()<CR>
-noremap <unique> <script> <Plug>vim-minitest#RunNearestTest :call <SID>RunNearestTest()<CR>
-noremap <unique> <script> <Plug>vim-minitest#RunLastTest :call <SID>RunLastTest()<CR>
-noremap <unique> <script> <Plug>vim-minitest#RunAllTests :call <SID>RunAllTests()<CR>
+nnoremap <Plug>vim-minitest#RunCurrentTestFile :call <SID>RunCurrentTestFile()<CR>
+nnoremap <Plug>vim-minitest#RunNearestTest :call <SID>RunNearestTest()<CR>
+nnoremap <Plug>vim-minitest#RunLastTest :call <SID>RunLastTest()<CR>
+nnoremap <Plug>vim-minitest#RunAllTests :call <SID>RunAllTests()<CR>
 
 let s:plugin_path = expand("<sfile>:p:h:h")
 
