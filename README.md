@@ -43,8 +43,3 @@ Example:
 ```vim
 let g:minitest_command = "!ruby -Itest {test}"
 ```
-
-## License
-
-Minitest.vim is copyright © 2013 Cort Spellman. It is free software and may be
-redistributed under the terms specified in the `LICENSE` file.
