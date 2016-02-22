@@ -2,6 +2,10 @@
 
 This is a Minitest adaptation of [Rspec.vim from thoughtbot.](https://github.com/thoughtbot/vim-rspec)
 
+## NOTE: 2016-02-21: I think [minitest-line](https://github.com/judofyr/minitest-line) makes this plugin obsolete.
+
+The entire reason for this plugin that was rspec allowed single tests to be run by line number (e.g., cursor position, which [Rspec.vim](https://github.com/thoughtbot/vim-rspec) provides) while minitest required a method name.
+
 ## Installation
 
 Recommended installation with [vundle](https://github.com/gmarik/vundle):
