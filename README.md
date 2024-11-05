@@ -1,10 +1,8 @@
 # Minitest.vim
 
-This is a Minitest adaptation of [Rspec.vim from thoughtbot.](https://github.com/thoughtbot/vim-rspec)
+This is a Minitest adaptation of [Rspec.vim from thoughtbot.](https://github.com/thoughtbot/vim-rspec) to run specific tests from Vim.
 
 ## NOTE: 2016-02-21: I think [minitest-line](https://github.com/judofyr/minitest-line) makes this plugin obsolete.
-
-The entire reason for this plugin that was rspec allowed single tests to be run by line number (e.g., cursor position, which [Rspec.vim](https://github.com/thoughtbot/vim-rspec) provides) while minitest required a method name.
 
 ## Installation
 
@@ -25,8 +23,6 @@ if __FILE__ == $0
   Dir.glob("./test/**/test_*.rb") { |f| require f }
 end
 ```
-
-As per [Rspec.vim](https://github.com/thoughtbot/vim-rspec), if using zsh on OS X it may be necessary to run move `/etc/zshenv` to `/etc/zshrc`.
 
 ## Example of key mappings
 
